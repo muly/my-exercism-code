@@ -12,8 +12,7 @@ type Clock struct {
 
 func New(hour, minute int) Clock {
 	c := Clock{hour: hour, minute: minute}
-	standardize(&c)
-	return c
+	return c.standardize()
 }
 
 func (c Clock) String() string {
@@ -22,11 +21,10 @@ func (c Clock) String() string {
 
 func (c Clock) Add(minutes int) Clock {
 	c.minute += minutes
-	standardize(&c)
-	return c
+	return c.standardize()
 }
 
-func standardize(c *Clock) {
+func (c Clock) standardize() Clock {
 	rolloverHours := c.minute / 60
 	c.minute %= 60
 	if c.minute < 0 {
@@ -38,4 +36,5 @@ func standardize(c *Clock) {
 	if c.hour < 0 {
 		c.hour += 24
 	}
+	return c
 }
