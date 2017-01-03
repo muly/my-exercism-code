@@ -1,4 +1,4 @@
-package clock // main //clock //
+package clock
 
 import (
 	"fmt"
@@ -28,7 +28,6 @@ func (c Clock) Add(minutes int) Clock {
 
 func standardize(c *Clock) {
 	rolloverHours := c.minute / 60
-	//fmt.Println("rolloverHours=", rolloverHours)
 	c.minute %= 60
 	if c.minute < 0 {
 		rolloverHours--
@@ -40,13 +39,3 @@ func standardize(c *Clock) {
 		c.hour += 24
 	}
 }
-
-/*
-func main() {
-
-	c := Clock{1, -60}
-	standardize(&c)
-	fmt.Println(c.String())
-
-}
-*/
