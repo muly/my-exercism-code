@@ -1,4 +1,4 @@
-package clock
+package clock // main //clock //
 
 import (
 	"fmt"
@@ -11,13 +11,42 @@ type Clock struct {
 }
 
 func New(hour, minute int) Clock {
-	return Clock{hour: hour, minute: minute}
+	c := Clock{hour: hour, minute: minute}
+	standardize(&c)
+	return c
 }
 
 func (c Clock) String() string {
-	return fmt.Sprintf("%v:%v", c.hour, c.minute)
+	return fmt.Sprintf("%02d:%02d", c.hour, c.minute)
 }
 
-func (Clock) Add(minutes int) Clock {
-	return Clock{}
+func (c Clock) Add(minutes int) Clock {
+	c.minute += minutes
+	standardize(&c)
+	return c
 }
+
+func standardize(c *Clock) {
+	rolloverHours := c.minute / 60
+	//fmt.Println("rolloverHours=", rolloverHours)
+	c.minute %= 60
+	if c.minute < 0 {
+		rolloverHours--
+		c.minute += 60
+	}
+	c.hour += rolloverHours
+	c.hour %= 24
+	if c.hour < 0 {
+		c.hour += 24
+	}
+}
+
+/*
+func main() {
+
+	c := Clock{1, -60}
+	standardize(&c)
+	fmt.Println(c.String())
+
+}
+*/
